@@ -1,0 +1,16 @@
+{
+  "image": "neuralcoder/prog2-base:p1",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "VisualStudioExptTeam.vscodeintellicode",
+        "ms-vscode.cpptools",
+        "wayou.vscode-todo-highlight",
+        "hm.riscv-venus",
+        "usernamehw.errorlens",
+        "ms-vscode-remote.remote-ssh",
+        "zhwu95.riscv"
+      ]
+    }
+  }
+}
