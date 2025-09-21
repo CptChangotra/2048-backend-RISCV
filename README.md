@@ -1,4 +1,4 @@
-# 2048 in RISC‑V Assembly (Programming 2 — SS 2025)
+# 2048 in RISC‑V Assembly
 
 This repository contains my implementation of the classic sliding-tile game 2048 in RISC‑V assembly, following the Programming 2 (SS 2025) Project 1 specification.
 
@@ -107,23 +107,6 @@ Implement only the following subroutines; do not modify pre-provided files such 
 - You can run Venus with “-cc –retToAllA” to check calling-convention adherence (conservative; might miss some violations).
 
 
-## Development Workflow
-
-- Do not change pre-supplied control/utility code (e.g., main.s, buffer.s, utils.s).
-- Use .import to reference other files as needed. Do not import a file more than once.
-- Start Venus from the file containing your main code (the project already organizes entry points in tests and GUI runners).
-
-Recommended order:
-1) check_victory.s
-2) place.s
-3) move_check.s
-4) move_one.s → move_left.s
-5) merge.s
-6) complete_move.s
-7) Scoring returns (extend 6 and 7)
-8) printboard.s (see below)
-
-
 ## CLI Board Printer (printboard.s) — 4 × 4
 
 Implement a printer for a 4×4 board that renders tiles up to four digits each, exactly as specified (fixed widths, alignment, separators, spaces). The output must match precisely, including spaces and trailing newline. See project statement for the expected ASCII layout.
@@ -185,26 +168,6 @@ GUI (optional helper):
   - Utilities available: assert_eq_board and print_board_test in tests/test_utils.s
 
 
-## Git and Submission (course context)
-
-If you did not configure git globally:
-```
-git config --global user.name "<Givenname Lastname>"
-git config --global user.email "<id>@stud.uni-saarland.de"
-```
-
-Submission rule (course server): Last commit on main before 06.05.2025 13:59 is considered your submission. Push frequently to trigger daily tests on the server and to keep a backup.
-
-Daily and eval tests run on the course infrastructure; you only have access to public tests locally. Passing public tests is required to receive daily test feedback. Ensure your code assembles locally to avoid delayed daily tests.
-
-
-## LLM Usage Policy (course)
-
-LLMs are allowed but should be used sparingly. You must fully understand your code and may be asked to reproduce/explain it. Document any LLM usage:
-- Create a file LLM.txt in the project root explaining how LLMs were used.
-- Commit and push it along with your work.
-
-
 ## Repository Structure (indicative)
 
 - RISC‑V assembly sources:
@@ -221,31 +184,3 @@ LLMs are allowed but should be used sparingly. You must fully understand your co
   - LLM.txt (required if you used LLMs)
 
 
-## Scoring Details (section 4.6)
-
-- Each merge producing a tile of value x yields x points.
-- For a single row move, with v merges in total and base score S = sum of produced tile values:
-  - Combo factor = 2^(v − 1)
-  - Final row score = (2^(v − 1)) × S
-- Extend merge.s to return (v, S) in (a0, a1).
-- Extend complete_move.s to return (v, S) across its single merge pass for that row. Aggregation across rows and total game score is handled by the caller.
-
-
-## Tips
-
-- Carefully preserve caller-saved and callee-saved registers per the calling convention.
-- When operating on rows/columns passed as arrays of addresses, remember:
-  - Load the address from the row array
-  - Then load/store the halfword tile value at that address
-- Implement move_one.s cleanly; it simplifies move_left.s.
-- Enforce left-to-right order in merge.s, and ensure “merge once per turn” by the prescribed move-merge-move sequence in complete_move.s.
-- When printing, count spaces meticulously; the grader compares exact output.
-
-
-## License
-
-This repository is for educational purposes in the context of Programming 2 (SS 2025). See course policies regarding code sharing and collaboration.
-
-
----
-If you spot discrepancies between this README and the official project statement, the statement is authoritative.
